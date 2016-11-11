@@ -1,0 +1,302 @@
+
+<!doctype html>
+<html>
+<head>
+	<meta charset="UTF-8">
+    <link href = "static/source.css" rel = "stylesheet">
+	<title>Group1 Challenge6 HOME</title>
+    <style>
+		body
+			{
+			background-image: url(static/stardust.png);
+			background-repeat: repeat;
+			}
+    #container {
+    min-width: 110px;
+    max-width: 1200px;
+    margin-bottom: 100px;
+		margin-left: auto;
+		margin-right: auto;
+		}
+		#stage { border:solid 1px #2d2d2d;
+			 text-align:center;
+			 font-size: 40px;
+				background:#575757;
+				padding:50px 100px 50px 100px;  -moz-border-radius: 5px;  -webkit-border-radius: 5px; border-radius: 5px;}
+
+		/* =Your Generated css
+		|||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
+		#stage {transform:  rotate(4deg) scale(0.593) skew(1deg) translate(0px);-webkit-transform:  rotate(4deg) scale(0.593) skew(1deg) translate(0px);-moz-transform: rotate(4deg) scale(0.593) skew(1deg) translate(0px);-o-transform:  rotate(4deg) scale(0.593) skew(1deg) translate(0px);-ms-transform:  rotate(4deg) scale(0.593) skew(1deg) translate(0px);}
+
+</style>
+
+<script src="https://code.highcharts.com/highcharts.js"></script>
+<script src="https://code.highcharts.com/highcharts-3d.js"></script>
+<script src="https://code.highcharts.com/modules/exporting.js"></script>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+
+
+
+
+<script>
+	var socket = io();
+	var Y = 0;
+
+	socket.on('knn_result', function(msg){
+	  Y = msg;
+      //alert(Y)
+	});
+  $(function () {
+
+    // Give the points a 3D feel by adding a radial gradient
+    Highcharts.getOptions().colors = $.map(Highcharts.getOptions().colors, function (color) {
+        return {
+            radialGradient: {
+                cx: 0.4,
+                cy: 0.3,
+                r: 0.5
+            },
+            stops: [
+                [0, color],
+                [1, Highcharts.Color(color).brighten(-0.2).get('rgb')]
+            ]
+        };
+    });
+
+    // Set up the chart
+    var chart = new Highcharts.Chart({
+        chart: {
+            renderTo: 'container',
+            margin: 100,
+            type: 'scatter',
+            options3d: {
+                enabled: true,
+                alpha: 30,
+                beta: 30,
+                depth: 800,
+                viewDistance: 5,
+                fitToPlot: false,
+                frame: {
+                    bottom: { size: 1, color: 'rgba(0,0,0,0.02)' },
+                    back: { size: 1, color: 'rgba(0,0,0,0.04)' },
+                    side: { size: 1, color: 'rgba(0,0,0,0.06)' }
+                }
+            }
+        },
+        title: {
+            text: 'Draggable box'
+        },
+        subtitle: {
+            text: 'Click and drag the plot area to rotate in space'
+        },
+        plotOptions: {
+            scatter: {
+                width: 10,
+                height: 10,
+                depth: 10
+            }
+        },
+        yAxis: {
+            min: 0,
+            max: 10,
+            title: null,
+            gridLineWidth: 1
+        },
+        xAxis: {
+            min: 0,
+            max: 35,
+            gridLineWidth: 1
+        },
+        zAxis: {
+            min: 0,
+            max: 13,
+            showFirstLabel: false,
+            gridLineWidth: 1
+        },
+        legend: {
+            enabled: false
+        },
+        series: [{
+            name: 'Reading',
+            colorByPoint: false,
+            data: [[1, 3, 1],[1,3,2],[1,3,3],[1,3,4],[1,3,5],[1,3,6],[1,3,7],[1,3,8],[1,3,9],[1,3,10],[1,3,11],[1,3,12],[2,3,12],[3,3,12],[4,3,12],[5,3,12],[6,3,12],[7,3,12],[8,3,12],[9,3,12],[10,3,12],[11,3,12],[12,3,12],[13,3,12],[14,3,12],[15,3,12],[16,3,12],[17,3,12],[18,3,12],[19,3,12],[20,3,12],[21,3,12],[22,3,12],[23,3,12],[24,3,12],[25,3,12],[26,3,12],[27,3,12],[28,3,12],[29,3,12],[30,3,12],[31,3,12],[32,3,12],[33,3,12],[34,3,12],[35,3,12],[2,3,1],[3,3,1],[4,3,1],[5,3,1],[6,3,1],[7,3,1],[8,3,1],[9,3,1],[10,3,1],[11,3,1],[12,3,1],[13,3,1],[14,3,1],[15,3,1],[16,3,1],[17,3,1],[18,3,1],[19,3,1],[20,3,1],[21,3,1],[22,3,1],[23,3,1],[24,3,1],[25,3,1],[25,3,0.5],[26,3,0.5],[27,3,0.5],[28,3,0.5],[29,3,0.5],[30,3,0.5],[31,3,0.5],[32,3,0.5],[33,3,0.5],[34,3,0.5],[35,3,0.5],[30,3,3],[31,3,3],[32,3,3],[33,3,3],[34,3,3],[35,3,3],[30,3,4],[30,3,5],[30,3,6],[30,3,7],[30,3,8],[30,3,9],[31,3,9],[32,3,9],[33,3,9],[34,3,9],[35,3,9],[25,3,3],[25,3,4],[25,3,5],[25,3,5.5],[25,3,7.5],[25,3,8],[25,3,9],[25,3,10],[24,3,5.5],[23,3,5.5],[22,3,5.5],[21,3,5.5],[20,3,5.5],[20,3,6],[20,3,7],[20,3,7.5],[21,3,7.5],[22,3,7.5],[23,3,7.5],[24,3,7.5],[4,3,2],[4,3,3],[4,3,4],[4,3,5],[4,3,6],[4,3,7],[4,3,8],[4,3,9],[4,3,10],[4,3,11],[5,3,2],[6,3,2],[7,3,2],[8,3,2],[9,3,2],[10,3,2],[11,3,2],[12,3,2],[13,3,2],[14,3,2],[15,3,2],[16,3,2],[17,3,2],[18,3,2],[19,3,2],[20,3,2],[21,3,2],[22,3,2],[23,3,2],[24,3,2],[25,3,2],[5,3,11],[6,3,11],[7,3,11],[8,3,11],[9,3,11],[10,3,11],[11,3,11],[12,3,11],[13,3,11],[14,3,11],[15,3,11],[16,3,11],[17,3,11],[18,3,11],[19,3,11],[20,3,11],[21,3,11],[22,3,11],[23,3,11],[24,3,11],[25,3,11]]
+        },
+        {
+            name: 'Track',
+            data:[[0,0,0],[0,0,0],[0,0,0],[0,0,0],[0,0,0]]
+        },
+        {
+            name: 'CurrentPoint',
+            data:[[0,2,0]]
+        }]
+    });
+    var arr = [];
+      arr[0] = [];
+      //arr[0][0]=0;
+      //arr[0][1]=0;
+    for(var i =1; i < 21; i++) {
+      arr[i]=[];
+           arr[i][0]=1+i*1.45;
+           arr[i][1]=1.5;
+        }
+        var count1 =1;
+    for(var i = 21; i<25; i++) {
+
+           arr[i]=[];
+           arr[i][0]=27.5;
+           arr[i][1]= 1.5 + 2.5*count1;
+           count1 ++;
+    }
+    var count2 =1;
+    for(var i = 43; i>24; i--) {
+          arr[i]=[];
+
+           arr[i][0]=1+count2*1.45;
+           arr[i][1]=11.5;
+           count2 ++;
+    }
+    var count3 =1;
+
+    for(var i = 47; i >43; i--) {
+          arr[i]=[];
+
+           arr[i][0]=2.45;
+           arr[i][1]=1.5 + 2.5*count3;
+           count3++;
+        }
+        arr[48] = [];
+         arr[48][0] = 22.5;
+         arr[48][1] = arr[22][1];
+
+				 // var Y = 13;
+                 //var Y = 1;
+		//var a = arr[Y][0];
+		//var b = arr[Y][1];
+	var old = [];
+		old[0] = arr[Y][0];
+		old[1] = arr[Y][1];
+
+		
+
+    setInterval(function () {
+				//alert("here");
+                var x = 1, // current time
+                    y = 1;
+					z = 1;
+                var minX = 99;
+                var minZ = 99;
+                var maxX = 0;
+                var maxZ = 0;
+
+                var series1 = chart.series[1];
+                  //  $('#label').text(Y);
+                series1.addPoint([arr[Y][0], 3,arr[Y][1]], true, true, true);
+								var distance = (arr[Y][0]-old[0])*(arr[Y][0]-old[0])+(arr[Y][1]-old[1])*(arr[Y][1]-old[1]);
+								//alert(distance);
+								if ( distance <= 30){
+								//alert(distance);
+				        var series2 = chart.series[2];
+				        series2.addPoint([arr[Y][0], 3,arr[Y][1]],true,true,true);
+								}
+				old[0]=arr[Y][0];
+				old[1]=arr[Y][1];
+				var min = 99;
+				var max = 0;
+
+				//var ax = [];
+				//var az = [];
+				//alert(chart.series[1].data[0]['z']);
+				for ( var i = 0; i<5 ; i++){
+					//ax[i] = series1.data[i].x;
+					//az[i] = series1.data[i].z;
+					maxX = Math.max(maxX,series1.data[i].x);
+					minX = Math.min(minX,series1.data[i].x);
+                    if(series1.data[i]['z'] != undefined) {
+                        maxZ = Math.max(maxZ,series1.data[i]['z']);
+                    //alert(series1.data[i]['z']);
+                    minZ = Math.min(maxZ,series1.data[i].z);
+                    }
+					
+				}
+
+
+
+
+				//alert(Math.min.apply( Math, ));
+				$('#stage').text('Maximum is (' + maxX +','+maxZ+'),'+' Minimum is('+minX+','+minZ +')' );
+            }, 1000);
+
+
+    // Add mouse events for rotation
+    $(chart.container).on('mousedown.hc touchstart.hc', function (eStart) {
+        eStart = chart.pointer.normalize(eStart);
+
+        var posX = eStart.pageX,
+            posY = eStart.pageY,
+            alpha = chart.options.chart.options3d.alpha,
+            beta = chart.options.chart.options3d.beta,
+            newAlpha,
+            newBeta,
+            sensitivity = 5; // lower is more sensitive
+
+        $(document).on({
+            'mousemove.hc touchdrag.hc': function (e) {
+                // Run beta
+                newBeta = beta + (posX - e.pageX) / sensitivity;
+                chart.options.chart.options3d.beta = newBeta;
+
+                // Run alpha
+                newAlpha = alpha + (e.pageY - posY) / sensitivity;
+                chart.options.chart.options3d.alpha = newAlpha;
+
+                chart.redraw(false);
+            },
+            'mouseup touchend': function () {
+                $(document).off('.hc');
+            }
+        });
+    });
+
+});
+</script>
+</head>
+
+<body>
+
+	<div id="wrapper">
+
+	  <div id="info">
+			<h1> <strong>Current Position</strong></h1>
+			<div id = "stage">
+							 Show Error here
+			</div>
+	   <div id="container" style="height: 800px"></div>
+	    <div id="info-content">
+	    </div>
+	  </div>
+
+
+
+
+
+  <input type="checkbox" id="menu" name="menu" class="menu-checkbox">
+  <div class="menu">
+    <label class="menu-toggle" for="menu"><span>Toggle</span></label>
+    <ul>
+      <li>
+        <a href="http://ec544group1.hopto.org:3002/">Home</a>
+      </li>
+      <li>
+
+      </li>
+      <li>
+        <a href="http://ec544group1.hopto.org:3002/test1">3D</a>
+      </li>
+    </ul>
+  </div>
+</div><!-- #wrapper -->
+
+
+</body>
+</html>
